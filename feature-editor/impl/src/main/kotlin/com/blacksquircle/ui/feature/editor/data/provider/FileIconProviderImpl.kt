@@ -67,6 +67,16 @@ internal class FileIconProviderImpl : FileIconProvider {
             LanguageScope.YAML -> UiR.drawable.ic_file_code
             LanguageScope.ZIG -> UiR.drawable.ic_file_code
             LanguageScope.VUE -> UiR.drawable.ic_file_code
+            LanguageScope.SWIFT -> UiR.drawable.ic_file_code
+            LanguageScope.R -> UiR.drawable.ic_file_code
+            LanguageScope.POWERSHELL -> UiR.drawable.ic_file_code
+            LanguageScope.OBJC -> UiR.drawable.ic_file_code
+            LanguageScope.LESS -> UiR.drawable.ic_file_code
+            LanguageScope.SCSS -> UiR.drawable.ic_file_code
+            LanguageScope.COFFEESCRIPT -> UiR.drawable.ic_file_code
+            LanguageScope.PUG -> UiR.drawable.ic_file_code
+            LanguageScope.DIFF -> UiR.drawable.ic_file_code
+            LanguageScope.HANDLEBARS -> UiR.drawable.ic_file_code
             else -> -1
         }
     }
