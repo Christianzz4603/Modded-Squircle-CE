@@ -92,7 +92,7 @@ internal fun CodeEditor.createFromRegistry(
             symbolPairs.setEnabled(autoClosePairs)
             useTab(useTab)
             if (codeCompletion) {
-                LanguageKeywords.forScope(language)?.let { setCompleterKeywords(it) }
+                LanguageKeywords.forScope(context, language)?.let { setCompleterKeywords(it) }
             }
         }
     } catch (e: Exception) {
