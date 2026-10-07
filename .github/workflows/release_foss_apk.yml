@@ -1,26 +1,31 @@
 name: Release FOSS APK
 
 on:
+  push:
+    branches:
+      - 'master'
+    tags:
+      - 'v*'
+    paths-ignore:
+      - '**.md'
+      - '.github/ISSUE_TEMPLATE/**'
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag (re-using an existing tag replaces its APK)'
+        description: 'Release tag (foss-latest = rolling latest build)'
         required: true
         default: 'foss-latest'
       prerelease:
         description: 'Mark as pre-release'
         type: boolean
         default: false
-  push:
-    tags:
-      - 'v*'
 
 permissions:
   contents: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.inputs.tag || github.ref_name }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
 
 env:
   APK_NAME: Modded-Squircel-CE-foss.apk
@@ -92,14 +97,23 @@ jobs:
       - name: Create or update release
         env:
           GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.event.inputs.tag || github.ref_name }}
+          TAG: ${{ github.event.inputs.tag || (github.ref_type == 'tag' && github.ref_name) || 'foss-latest' }}
           PRERELEASE: ${{ github.event.inputs.prerelease }}
         run: |
-          if gh release view "$TAG" > /dev/null 2>&1; then
+          FLAGS=""
+          if [ "$PRERELEASE" = "true" ]; then FLAGS="--prerelease"; fi
+          SUBJECT=$(git log -1 --pretty=%s)
+          if [ "$TAG" = "foss-latest" ]; then
+            # Rolling release: replace the previous one so the tag points at this commit
+            gh release delete "$TAG" --cleanup-tag --yes || true
+            gh release create "$TAG" "$APK_NAME" \
+              --title "Modded Squircle CE - latest FOSS build" \
+              --notes "Automatic build of commit ${GITHUB_SHA::7}: $SUBJECT" \
+              --target "$GITHUB_SHA" \
+              $FLAGS
+          elif gh release view "$TAG" > /dev/null 2>&1; then
             gh release upload "$TAG" "$APK_NAME" --clobber
           else
-            FLAGS=""
-            if [ "$PRERELEASE" = "true" ]; then FLAGS="--prerelease"; fi
             gh release create "$TAG" "$APK_NAME" \
               --title "Modded Squircle CE $TAG (FOSS)" \
               --generate-notes \
