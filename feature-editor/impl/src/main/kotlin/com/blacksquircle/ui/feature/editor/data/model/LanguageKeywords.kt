@@ -28,7 +28,7 @@ internal object LanguageKeywords {
     private val keywords: Map<String, Array<String>> by lazy {
         mapOf(
             LanguageScope.BAT to words(KW_BAT),
-            LanguageScope.C to words(KW_C),
+            LanguageScope.C to words(KW_C, KW_CEXTRA),
             LanguageScope.CLOJURE to words(KW_CLOJURE),
             LanguageScope.CPP to words(KW_C, KW_CPP),
             LanguageScope.CSHARP to words(KW_CSHARP),
@@ -63,7 +63,7 @@ internal object LanguageKeywords {
             LanguageScope.SWIFT to words(KW_SWIFT),
             LanguageScope.R to words(KW_R),
             LanguageScope.POWERSHELL to words(KW_POWERSHELL),
-            LanguageScope.OBJC to words(KW_C, KW_OBJC),
+            LanguageScope.OBJC to words(KW_CEXTRA, KW_C, KW_OBJC),
             LanguageScope.LESS to words(KW_CSS),
             LanguageScope.SCSS to words(KW_CSS, KW_SCSS),
             LanguageScope.COFFEESCRIPT to words(KW_COFFEE),
@@ -103,7 +103,9 @@ internal object LanguageKeywords {
         decltype delete dynamic_cast explicit export false friend mutable namespace new noexcept
         nullptr operator or override private protected public reinterpret_cast requires
         static_assert static_cast template this throw true try typeid typename using virtual
-        final std
+        final std asm auto break case char char16_t char32_t const continue default do double
+        else enum extern float for goto if inline int long register return short signed sizeof
+        static struct switch thread_local typedef union unsigned void volatile wchar_t while
     """.trimIndent()
 
     private val KW_JAVA = """
@@ -159,7 +161,7 @@ internal object LanguageKeywords {
         internal is let nil open operator private protocol public repeat rethrows return self
         Self static struct subscript super switch throw throws true try typealias var where
         while actor any some lazy weak unowned override final mutating nonmutating optional
-        required convenience willSet didSet get set print
+        required convenience willSet didSet get set print as Any
     """.trimIndent()
 
     private val KW_DART = """
@@ -174,7 +176,7 @@ internal object LanguageKeywords {
         BEGIN END alias and begin break case class def do else elsif end ensure false for if in
         module next nil not or redo rescue retry return self super then true undef unless until
         when while yield puts require require_relative attr_accessor attr_reader attr_writer
-        include extend private protected public lambda proc raise
+        include extend private protected public lambda proc raise __FILE__ __LINE__ __ENCODING__
     """.trimIndent()
 
     private val KW_PHP = """
@@ -268,7 +270,13 @@ internal object LanguageKeywords {
         program end subroutine function module use implicit none integer real double precision
         complex logical character dimension allocatable allocate deallocate if then else elseif
         endif do enddo while select case call return stop print write read open close contains
-        intent in out parameter
+        intent in out parameter abstract assign associate asynchronous backspace bind block data
+        class codimension common contiguous continue critical cycle deferred concurrent
+        elemental elsewhere endfile entry enum enumerator equivalence error exit extends
+        external final flush forall format generic goto import include inquire interface
+        intrinsic lock namelist non_overridable nopass nullify only operator optional pass pause
+        pointer private procedure protected public pure recursive result rewind rewrite save
+        sequence submodule sync all images memory target unlock value volatile wait where
     """.trimIndent()
 
     private val KW_PERL = """
@@ -328,7 +336,7 @@ internal object LanguageKeywords {
         if else repeat while function for next break TRUE FALSE NULL NA Inf NaN library require
         return print paste paste0 cat c list vector data.frame matrix length seq rep sum mean
         median sd min max apply sapply lapply names nrow ncol head tail summary plot str is.null
-        stop warning tryCatch
+        stop warning tryCatch NA_character_ NA_complex_ NA_integer_ NA_real_ in
     """.trimIndent()
 
     private val KW_POWERSHELL = """
@@ -360,5 +368,10 @@ internal object LanguageKeywords {
 
     private val KW_HBS = """
         if else unless each with lookup log this helper partial block yield
+    """.trimIndent()
+
+    private val KW_CEXTRA = """
+        restrict _Alignas _Alignof _Atomic _Bool _Complex _Generic _Imaginary _Noreturn
+        _Static_assert _Thread_local
     """.trimIndent()
 }
